@@ -1,0 +1,11 @@
+{
+ "task"                 : "turn-right",
+ "town"                 : "Town01_nemesisA",
+ "GPU"                  : 0,
+ "scene"                : 1,
+ "port"                 : 2000,
+ "random_points"        : 5,
+ "search_points"        : 10,
+ "acquisition_function" : "ei",
+ "overwrite_experiment" : false
+}
