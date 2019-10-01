@@ -32,10 +32,10 @@ class ImitationLearning(Agent):
             # GPU to be selected, just take zero , select GPU  with CUDA_VISIBLE_DEVICES
             # config_gpu.gpu_options.visible_device_list = '0'
             config_gpu.gpu_options.visible_device_list = str(gpu_num)
-            config_gpu.gpu_options.per_process_gpu_memory_fraction = memory_fraction
+            
         else:
             tf_device = '/cpu:0'
-
+        config_gpu.gpu_options.per_process_gpu_memory_fraction = memory_fraction
         self._sess = tf.Session(config=config_gpu)
 
         with tf.device(tf_device):

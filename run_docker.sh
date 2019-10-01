@@ -1,7 +1,6 @@
 sudo docker run \
 -it --rm \
---runtime=nvidia \
--e NVIDIA_VISIBLE_DEVICES=0 \
+--gpus 0 \
 --user root \
 --net host \
 -v $(pwd)/:/AdverseDrive \
