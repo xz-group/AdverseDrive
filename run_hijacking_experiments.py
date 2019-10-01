@@ -12,12 +12,13 @@ from carla.driving_benchmark.experiment_suites import AdversarySuite
 with open('config/hijacking_params.json') as json_file:
     args = json.load(json_file)
 
-baseline_task = args['baseline_task']
-target_task   = args['target_task']
-curr_scene    = args['scene']
-curr_port     = args['port']
-curr_gpu      = args['GPU']
-curr_town     = args['town']
+baseline_task  = args['baseline_task']
+target_task    = args['target_task']
+baseline_scene = args['baseline_scene']
+target_scene   = args['target_scene']
+curr_port      = args['port']
+curr_gpu       = args['GPU']
+curr_town      = args['town']
 
 random_points        = args['random_points']
 search_points         = args['search_points']
@@ -37,7 +38,7 @@ if os.path.exists(directory_to_save):
 
 os.system("mkdir -p _benchmarks_results")
 print("Loading the Imitition Network and performing one simulation run for the target path..")
-env = CarlaEnv(task=target_task, town=curr_town, scene=curr_scene,
+env = CarlaEnv(task=target_task, town=curr_town, scene=target_scene,
                port=curr_port, save_images=False, gpu_num=curr_gpu)
 print("Complete.")
 
@@ -46,7 +47,7 @@ MAX_LEN           = int(len(env.get_steer())*.8)      # set maximum number of fr
 targetSteer      = targetSteer[:MAX_LEN]                  # subset steering angles to maximum number of allowed frames
 
 env.task  = baseline_task
-env.scene = curr_scene
+env.scene = baseline_scene
 env.experiment_name = 'baseline'
 
 # reset experiment suite with base task + scene

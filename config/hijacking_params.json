@@ -1,9 +1,10 @@
 {
  "target_task"          : "intersection-right",
- "baseline_task"        : "intersection-straight",
+ "baseline_task"        : "intersection-left",
  "town"                 : "Town01_nemesisA",
  "GPU"                  : 0,
- "scene"                : 1,
+ "target_scene"         : 1,
+ "baseline_scene"       : 2,
  "port"                 : 2000,
  "random_points"        : 5,
  "search_points"        : 10,
