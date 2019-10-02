@@ -58,7 +58,7 @@ The numbers for each pose correspond to various starting and ending positions on
 
 <div align="center">
 <figure>
-  <img src="../media/hijack_poses.jpg" alt="hijack_poses" style="width:80%">
+  <img src="../media/hijack_poses.jpg" alt="hijack_poses" width=80%>
   <figcaption>Hijack Poses</figcaption>
 </figure>
 </div>

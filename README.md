@@ -3,69 +3,69 @@
 The goal of this project is to attack end-to-end self-driving models using physically realizable adversaries.
 
 <div align="center"><figure>
-  <img src="media/concept_overview.png" alt="concept_overview" style="width:80%">
-  <figcaption>Concept Overview</figcaption>
+  <img src="media/concept_overview.png" alt="concept_overview" width=80%>
+  <figcaption><br>Concept Overview</figcaption>
 </figure></div>
 
 <br>
 
 <div align="center"><figure>
-  <img src="media/hijack_final.gif" alt="hijack_final" style="width:80%">
-  <figcaption>Hijacking Attack Example</figcaption>
+  <img src="media/hijack_final.gif" alt="hijack_final" width=80%>
+  <figcaption><br>Hijacking Attack Example</figcaption>
 </figure></div>
 
 ## Pre-requisites
 
 - Ubuntu 16.04
 - Dedicated GPU with relevant CUDA drivers
-- Docker-CE >= 19.03 (for docker method)
+- Docker-CE (for docker method)
 
-We highly recommend you use the dockerized version of our repository, due to being system independent. Furthermore, it would not affect the packages on your system.
+**Note: We highly recommend you use the [dockerized version](#docker-method-recommended) of our repository, due to being system independent. Furthermore, it would not affect the packages on your system.**
 
 ## Installation
 1. Clone the AdverseDrive repository
 
-```
+```bash
 git clone https://github.com/xz-group/AdverseDrive
 ```
 
 2. Export Carla paths to `PYTHONPATH`
 
-```
+```bash
 source export_paths.sh
 ```
 
 3. Install the required Python packages
 
-```
+```bash
 pip3 install -r requirements.txt
 ```
 
 4. Download the modified version of the Carla simulator[1], [carla-adversedrive.tar.gz](https://wustl.box.com/s/8k15yp7rb0ckcp7tqmhlh0rje1q1fcjm).
 Extract the contents of the directory and navigate into the extracted directory.
 
-```
+```bash
 tar xvzf carla-adversedrive.tar.gz
 cd carla-adverserdrive
 ```
 
 5. Run the Carla simulator on a terminal
 
-```
+```bash
 ./CarlaUE4.sh -windowed -ResX=800 -ResY=600
 ```
 This starts Carla as a server on port 2000. Give it about 10-30 seconds to start up depending on your system.
 
 6. On a new terminal, start a python HTTP server. This allows the Carla simulator to read the generated attack images and load it onto Carla
 
-```
+```bash
 sh run_adv_server.sh
 ```
 **Note: This requires port 8000 to be free.**
 
 7. On another new terminal, run the infraction objective python script
 
-```
+```bash
 python3 run_infraction_experiments.py
 ```
 Note: the Jupyter notebook version of this script, called `run_infraction_experiments.ipynb` describes each step in detail. It is recommended to use that while starting out with this repository. Use `jupyter notebook` to start a jupyter server in this directory.
@@ -81,47 +81,59 @@ Note: the Jupyter notebook version of this script, called `run_infraction_experi
 
 
 ### Docker Method (recommended)
+
+It is expected that you have some experience with dockers, and have [installed](https://docs.docker.com/install/) and tested your installation to ensure you have GPU access via docker containers.
+A quick way to test it is by running:
+```bash
+# docker >= 19.03
+docker run --gpus all,capabilities=utility nvidia/cuda:9.0-base nvidia-smi
+
+# docker < 19.03 (requires nvidia-docker2)
+docker run nvidia/cuda:9.0-base --runtime=nvidia nvidia-smi
+```
+And you should get a standard `nvidia-smi` output.
+
 1. Clone the AdverseDrive repo
 
-```
+```bash
 git clone https://github.com/xz-group/AdverseDrive
 ```
 
 2. Pull the modified version of the Carla simulator:
 
-```
+```bash
 docker pull xzgroup/carla:latest
 ```
 
 3. Pull the `AdverseDrive` docker containing all the prerequisite packages for running experiments (also server-friendly)
 
-```
+```bash
 docker pull xzgroup/adversedrive:latest
 ```
 
 4. Run the our dockerized Carla simulator on a terminal
 
-```
+```bash
 sh run_carla_docker.sh
 ```
 This starts Carla as a server on port 2000. Give it about 10-30 seconds to start up depending on your system.
 
 6. On a new terminal, start a python HTTP server. This allows the Carla simulator to read the generated attack images and load it onto Carla
 
-```
+```bash
 sh run_adv_server.sh
 ```
 Note: This requires port 8000 to be free.
 
 7. On another new terminal, run the `xzgroup/adversedrive` docker
 
-```
+```bash
 sh run_docker.sh
 ```
 
 8. Run the infraction objective python script
 
-```
+```bash
 python3 run_infraction_experiments.py
 ```
 
