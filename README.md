@@ -10,7 +10,7 @@ The goal of this project is to attack end-to-end self-driving models using physi
 <br>
 
 <div align="center"><figure>
-  <img src="media/hijack_final.gif" alt="concept_overview" style="width:80%">
+  <img src="media/hijack_final.gif" alt="hijack_final" style="width:80%">
   <figcaption>Hijacking Attack Example</figcaption>
 </figure></div>
 
@@ -22,7 +22,7 @@ The goal of this project is to attack end-to-end self-driving models using physi
 
 We highly recommend you use the dockerized version of our repository, due to being system independent. Furthermore, it would not affect the packages on your system.
 
-## Quick Start
+## Installation
 1. Clone the AdverseDrive repository
 
 ```
@@ -41,7 +41,8 @@ source export_paths.sh
 pip3 install -r requirements.txt
 ```
 
-4. Download the modified version of the Carla simulator[1] from [https://wustl.box.com/s/8k15yp7rb0ckcp7tqmhlh0rje1q1fcjm](https://wustl.box.com/s/8k15yp7rb0ckcp7tqmhlh0rje1q1fcjm). Extract the contents of the directory and navigate into the extracted directory.
+4. Download the modified version of the Carla simulator[1], [carla-adversedrive.tar.gz](https://wustl.box.com/s/8k15yp7rb0ckcp7tqmhlh0rje1q1fcjm).
+Extract the contents of the directory and navigate into the extracted directory.
 
 ```
 tar xvzf carla-adversedrive.tar.gz
@@ -126,7 +127,7 @@ python3 run_infraction_experiments.py
 
 ## More documentation
 - [Frequently Asked Questions](docs/faq.md)
-- [Experiment Details](docs/experiment_info.md)
+- [Experiment Details](docs/experiment_details.md)
 
 ## References
 1. Carla Simulator: [https://github.com/carla-simulator/carla](https://github.com/carla-simulator/carla)
