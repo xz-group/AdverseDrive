@@ -6,18 +6,20 @@ import pandas as pd
 from carla_env import CarlaEnv
 from bayes_opt import UtilityFunction
 from bayes_opt import BayesianOptimization
+from carla.driving_benchmark import run_driving_benchmark
+from carla.driving_benchmark.experiment_suites import AdversarySuite
 
-with open('config/infraction_params.json') as json_file:
+with open('config/hijacking_params.json') as json_file:
     args = json.load(json_file)
 
-# CARLA parameters
-curr_task  = args['task']
-curr_scene = args['scene']
-curr_port  = args['port']
-curr_gpu   = args['GPU']
-curr_town  = args['town']
+baseline_task  = args['baseline_task']
+target_task    = args['target_task']
+baseline_scene = args['baseline_scene']
+target_scene   = args['target_scene']
+curr_port      = args['port']
+curr_gpu       = args['GPU']
+curr_town      = args['town']
 
-# bayesian parameters
 random_points        = args['random_points']
 search_points         = args['search_points']
 acquisition_function = args['acquisition_function']
@@ -30,22 +32,35 @@ if os.path.exists(directory_to_save):
         print("Removing {}".format(directory_to_save))
         os.system("rm -rf {}".format(directory_to_save))
     else:
-        print("WARNING: A directory called {} already exists.".format(directory_to_save))
-        print("Please make sure to move the contents as running this program will overwrite the contents of this directory.")
+        print("ERROR: A directory called {} already exists.".format(directory_to_save))
+        print("Please make sure to move the contents to a new location as running this program will overwrite the contents of this directory.")
         exit()
 
-
-now = time.time()
-print("Loading the Imitition Network and performing one simulation run for the baseline path..")
 os.system("mkdir -p _benchmarks_results")
-env = CarlaEnv(task=curr_task, town='Town01_nemesisA', scene=curr_scene,
+print("Loading the Imitition Network and performing one simulation run for the target path..")
+env = CarlaEnv(task=target_task, town=curr_town, scene=target_scene,
                port=curr_port, save_images=False, gpu_num=curr_gpu)
 print("Complete.")
 
-baseSteer     = env.baseline_steer                   # get the steering angles for the baseline run
-MAX_LEN       = int(len(env.baseline_steer)*.8)      # set maximum number of frames to 80 percent of baseline scenario
+targetSteer       = env.get_steer()                  # get the steering angles for the target run
+MAX_LEN           = int(len(env.get_steer())*.8)      # set maximum number of frames to 80 percent of target scenario
+targetSteer      = targetSteer[:MAX_LEN]                  # subset steering angles to maximum number of allowed frames
 
-baseSteer     = baseSteer[:MAX_LEN]                  # subset steering angles to maximum number of allowed frames
+env.task  = baseline_task
+env.scene = baseline_scene
+env.experiment_name = 'baseline'
+
+# reset experiment suite with base task + scene
+env.experiment_suite = AdversarySuite(env.town, env.task, env.weather, env.iterations, env.scene)
+
+# run the baseline simulation
+print("Running the simulation for the baseline path.")
+run_driving_benchmark(env.agent, env.experiment_suite, log_name=env.experiment_name,
+                    city_name=env.town, port=env.port, save_images=False)
+print("Complete.")
+baseSteer      = env.get_steer()
+MAX_LEN_B      = int(len(baseSteer)*.8)
+baseSteer      = baseSteer[:MAX_LEN_B]
 
 
 def target(pos1, rot1, pos2=0, rot2=0, width=10, length=200, colorR=0, colorG=0, colorB=0):
@@ -78,17 +93,20 @@ def target(pos1, rot1, pos2=0, rot2=0, width=10, length=200, colorR=0, colorG=0,
     # if attackSteer vector is shorter than baseSteer, extend attackSteer with baseSteer.
     # This takes care of difference in vector lengths without changing the L1 value
     # as extended part of attackSteer will have zero difference with same part of baseSteer
-    if len(attackSteer) < len(baseSteer):
-        attackSteer = np.append(attackSteer, baseSteer[len(attackSteer):])
+    if len(attackSteer) < len(targetSteer):
+        attackSteer = np.append(attackSteer, targetSteer[len(attackSteer):])
 
     # return objective function value for this particular run
-    return np.sum(np.abs(attackSteer - baseSteer))
+    return -1 * np.sum(np.abs(attackSteer - targetSteer))
 
+
+# define the bounds for our attack parameters.
+# in our case, the position of both lines can start between pixel 0 and pixel 190.
+# the rotation of each line can over pi radians.
 controls = {'pos1': (0, 190),
             'rot1': (0, 179),
             'pos2': (0, 200),
             'rot2': (0, 179)}
-
 print("Running the Bayesian Optimizer for {} iterations.".format(str(random_points + search_points)))
 # instantiate the bayesian optimizer
 optimizer = BayesianOptimization(target, controls, random_state=42)

@@ -66,9 +66,9 @@ sh run_adv_server.sh
 7. On another new terminal, run the infraction objective python script
 
 ```bash
-python3 run_infraction_experiments.py
+python3 start_infraction_experiments.py
 ```
-Note: the Jupyter notebook version of this script, called `run_infraction_experiments.ipynb` describes each step in detail. It is recommended to use that while starting out with this repository. Use `jupyter notebook` to start a jupyter server in this directory.
+Note: the Jupyter notebook version of this script, called `start_infraction_experiments.ipynb` describes each step in detail. It is recommended to use that while starting out with this repository. Use `jupyter notebook` to start a jupyter server in this directory.
 
 ## How it Works
 
@@ -134,7 +134,7 @@ sh run_docker.sh
 8. Run the infraction objective python script
 
 ```bash
-python3 run_infraction_experiments.py
+python3 start_infraction_experiments.py
 ```
 
 ## More documentation
