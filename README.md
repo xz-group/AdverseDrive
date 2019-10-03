@@ -2,17 +2,10 @@
 
 The goal of this project is to attack end-to-end self-driving models using physically realizable adversaries.
 
-<div align="center"><figure>
-  <img src="media/concept_overview.png" alt="concept_overview" width=80%>
-  <figcaption><br>Concept Overview</figcaption>
-</figure></div>
-
-<br>
-
-<div align="center"><figure>
-  <img src="media/hijack_final.gif" alt="hijack_final" width=80%>
-  <figcaption><br>Hijacking Attack Example</figcaption>
-</figure></div>
+|<center>Target Objective</center>| <center>Conceptual Overview</center>| <center>Example</center>  |
+| :-: | :-: | :-: |
+|Collision Attack|<img src="media/collision_overview.png" alt="collision_overview"> | <img src="media/collision_adversary.gif" alt="collision_adversary"/>|
+|Hijacking Attack|<img src="media/hijack_overview.png" alt="hijack_overview">|<img src="media/hijack_adversary.gif" alt="hijack_adversary">|
 
 ## Pre-requisites
 
