@@ -142,16 +142,13 @@ python3 start_infraction_experiments.py
 ## Citation
 If you use our work, kindly cite us using the following:
 ```
-@article{place_holder,
-  author    = {Adith Boloor, Karthik Garimella, Xin He,
-               Christopher D. Gill, Yevgeniy Vorobeychik and Xuan Zhang},
-  title     = {Attacking Vision based Perception in End-to-end
-              Autonomous Driving Models},
-  journal   = {placeholder},
-  volume    = {placeholder},
-  year      = {2019},
-  url       = {http://arxiv.org/abs/placeholder},
-  archivePrefix = {arXiv},
-  eprint    = {placeholder},
+@misc{boloor2019,
+    title={Attacking Vision-based Perception in End-to-End Autonomous Driving Models},
+    author={Adith Boloor and Karthik Garimella and Xin He and 
+    Christopher Gill and Yevgeniy Vorobeychik and Xuan Zhang},
+    year={2019},
+    eprint={1910.01907},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG}
 }
 ```
