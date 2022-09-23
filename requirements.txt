@@ -7,4 +7,4 @@ opencv_python==4.0.0.21
 matplotlib==3.0.3
 imutils==0.5.2
 Pillow==6.1.0
-protobuf==3.9.2
+protobuf==3.18.3
